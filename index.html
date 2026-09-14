@@ -313,6 +313,8 @@
 
             confirmButton.disabled = true;
             bookingMessage.hidden = true;
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, "_blank", "noopener,noreferrer");
             try {
                 const apiBaseUrl = window.GLOW_UP_API_URL || "http://localhost:8080";
                 const response = await fetch(`${apiBaseUrl}/api/reservations`, {
@@ -321,9 +323,7 @@
                     body: JSON.stringify(reservation)
                 });
                 if (!response.ok) throw new Error("No se pudo guardar la reserva");
-                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-                bookingMessage.textContent = "Reserva guardada. WhatsApp se abrira con el mensaje listo para enviar.";
+                bookingMessage.textContent = "Reserva guardada. WhatsApp ya tiene el mensaje listo para enviar.";
                 bookingMessage.hidden = false;
             } catch (error) {
                 bookingMessage.textContent = "No se pudo guardar la reserva. Intenta nuevamente en unos segundos.";
