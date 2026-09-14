@@ -303,7 +303,7 @@
                 `Hora: ${state.time}`
             ].join("\n");
             const reservation = {
-                serviceType: currentService,
+                serviceType: currentService.toUpperCase(),
                 serviceName: serviceSchedules[currentService].label,
                 date: `${state.year}-${String(state.month + 1).padStart(2, "0")}-${String(state.day).padStart(2, "0")}`,
                 time: state.time,
