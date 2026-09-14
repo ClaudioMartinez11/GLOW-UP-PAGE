@@ -1,0 +1,19 @@
+# Java / Maven
+backend/target/
+*.class
+*.jar
+
+# Environment and credentials
+.env
+.env.*
+*.json
+!backend/src/main/resources/*.json
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db

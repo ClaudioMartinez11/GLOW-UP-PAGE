@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang = "es">    
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+    <title>Glow Up</title>
+    <link rel = "icon" href = "data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel = "stylesheet" href = "styles.css">
+</head>
+<body>
+    <main class="appointment">
+    <img src="glow%20up.jpeg" alt="Foto del local Glow Up" class="img">
+    <h2>Manicura y peinados</h2>
+
+    <section id="calendar" class="calendar">
+             <details class="picker-card service-picker">
+             <summary id="serviceSummary">Selecciona servicio</summary>
+             <div class="picker-content">
+                 <div id="serviceOptions" class="service-options">
+                     <button class="service-option" data-service="nails">Servicios de uñas</button>
+                     <button class="service-option" data-service="hair">Tratamientos capilares</button>
+                 </div>
+            </div>
+            </details>
+
+            <details class="picker-card booking-picker">
+            <summary>ELEGÍ TU MOMENTO</summary>
+            <div class="picker-content booking-content">
+                <section class="booking-step">
+                    <h4>Selecciona mes</h4>
+                    <div id="monthSlider" class="month-slider"></div>
+                </section>
+                <section class="booking-step">
+                    <h4>Selecciona fecha</h4>
+                    <div id="dates" class="dates"></div>
+                </section>
+                <section class="booking-step">
+                    <h4>Selecciona hora</h4>
+                    <div id="schedule" class="schedule"></div>
+                </section>
+            </div>
+            </details>
+
+          <button class="book-btn"><span>Reservar Cita</span></button>
+
+          <section class="extra-info">
+              <h4>Datos extras</h4>
+              <div class="extra-tabs">
+                  <button class="extra-tab active" data-panel="info-panel">Info</button>
+                  <button class="extra-tab" data-panel="prices-panel">Precios</button>
+              </div>
+              <div id="info-panel" class="extra-panel active">
+                  <ul>
+                      <li>Todos los servicios incluyen 2 diseños a elección.</li>
+                      <li>Se seña con el 20% del costo total del servicio.</li>
+                  </ul>
+              </div>
+              <div id="prices-panel" class="extra-panel">
+                  <section class="price-category" data-price-service="nails">
+                      <h5>Servicios de uñas</h5>
+                      <ul class="price-list">
+                          <li><span>Semipermanentes</span><strong>$20.000</strong></li>
+                          <li><span>Capping</span><strong>$23.000</strong></li>
+                          <li><span>Soft gel</span><strong>$25.000</strong></li>
+                          <li><span>Retiro</span><strong>$4.000</strong></li>
+                          <li><span>Diseño por uña</span><strong>$550</strong></li>
+                      </ul>
+                  </section>
+                  <section class="price-category" data-price-service="hair">
+                      <h5>Tratamientos capilares</h5>
+                      <ul class="price-list">
+                          <li><span>Alisado con formol</span><strong>$50.000</strong></li>
+                          <li><span>Alisado sin formol</span><strong>$65.000</strong></li>
+                          <li><span>Permanente (mujeres y hombres)</span><strong>$60.000</strong></li>
+                          <li><span>Nutrición</span><strong>$30.000 - $35.000</strong></li>
+                          <li><span>Hidratación</span><strong>$30.000 - $45.000</strong></li>
+                          <li><span>Recuperación capilar</span><strong>$105.000 <small>por 5 días</small></strong></li>
+                          <li><span>Botox capilar</span><strong>$40.000</strong></li>
+                          <li><span>Shock de keratina</span><strong>$35.000 - $40.000</strong></li>
+                      </ul>
+                  </section>
+              </div>
+          </section>
+        </section>
+    </main>
+
+    <footer class="footer-nav">
+        <nav class="nav-menu">
+              <a href="#" class="nav-link" aria-label="Instagram">
+                  <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                      <circle cx="12" cy="12" r="4"></circle>
+                      <circle cx="17.5" cy="6.5" r="1"></circle>
+                  </svg>
+                  <span>Instagram</span>
+              </a>
+              <a href="https://wa.me/0000000000" class="nav-link" aria-label="WhatsApp">
+                  <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="M8.5 7.8c.3-.5.8-.6 1.2-.3l1.1 1.5c.2.3.2.7 0 1l-.5.7c.7 1.3 1.7 2.3 3 3l.7-.5c.3-.2.7-.2 1 0l1.5 1.1c.3.3.2.9-.3 1.2-.7.4-1.5.6-2.2.4-3.5-.9-6.2-3.6-7.1-7.1-.2-.7 0-1.5.4-2.2z"></path>
+                  </svg>
+                  <span>WhatsApp</span>
+              </a>
+        </nav>
+    </footer>
+    <div id="bookingModal" class="booking-modal" hidden>
+        <div class="booking-dialog" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+            <button type="button" class="modal-close" aria-label="Cerrar formulario">&times;</button>
+            <h3 id="bookingTitle">Confirmar turno</h3>
+            <div class="booking-summary">
+                <p>Revisa tu selección:</p>
+                <dl>
+                    <div><dt>Servicio</dt><dd id="summaryService"></dd></div>
+                    <div><dt>Fecha</dt><dd id="summaryDate"></dd></div>
+                    <div><dt>Hora</dt><dd id="summaryTime"></dd></div>
+                </dl>
+            </div>
+            <form id="bookingForm">
+                <label for="clientName">Nombre completo</label>
+                <input id="clientName" name="clientName" type="text" autocomplete="name" required>
+                <label for="clientPhone">Número de teléfono</label>
+                <input id="clientPhone" name="clientPhone" type="tel" autocomplete="tel" inputmode="tel" required>
+                <button type="submit" class="confirm-booking">Confirmar reserva</button>
+            </form>
+            <p id="bookingMessage" class="booking-message" role="status" hidden></p>
+        </div>
+    </div>
+    <script>
+        const monthSlider = document.querySelector("#monthSlider");
+        const dates = document.querySelector("#dates");
+        const schedule = document.querySelector("#schedule");
+        const serviceSummary = document.querySelector("#serviceSummary");
+        const bookingModal = document.querySelector("#bookingModal");
+        const bookingForm = document.querySelector("#bookingForm");
+        const bookingMessage = document.querySelector("#bookingMessage");
+        const whatsappNumber = "3854481327";
+        const today = new Date();
+        const monthFormatter = new Intl.DateTimeFormat("es-ES", { month: "short" });
+        const weekdayFormatter = new Intl.DateTimeFormat("es-ES", { weekday: "short" });
+        const futureMonths = Array.from({ length: 12 }, (_, offset) => {
+            return new Date(today.getFullYear(), today.getMonth() + offset, 1);
+        });
+        const serviceSchedules = {
+            nails: {
+                label: "Servicios de uñas",
+                times: ["9:00 am", "10:00 am", "11:00 am", "12:00 pm", "1:00 pm", "2:00 pm", "3:00 pm", "4:00 pm"]
+            },
+            hair: {
+                label: "Tratamientos capilares",
+                times: ["9:00 am", "11:00 am", "1:00 pm", "3:00 pm", "5:00 pm"]
+            }
+        };
+        let currentService = "nails";
+        const serviceState = {
+            nails: { year: today.getFullYear(), month: today.getMonth(), day: today.getDate(), time: serviceSchedules.nails.times[0] },
+            hair: { year: today.getFullYear(), month: today.getMonth(), day: today.getDate(), time: serviceSchedules.hair.times[0] }
+        };
+
+        function formatSelectedDate(state) {
+            const date = new Date(state.year, state.month, state.day);
+            return new Intl.DateTimeFormat("es-ES", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }).format(date).replace(/^./, (letter) => letter.toUpperCase());
+        }
+
+        function openBookingModal() {
+            const state = serviceState[currentService];
+            document.querySelector("#summaryService").textContent = serviceSchedules[currentService].label;
+            document.querySelector("#summaryDate").textContent = formatSelectedDate(state);
+            document.querySelector("#summaryTime").textContent = state.time;
+            bookingMessage.hidden = true;
+            bookingModal.hidden = false;
+            document.querySelector("#clientName").focus();
+        }
+
+        function closeBookingModal() {
+            bookingModal.hidden = true;
+        }
+
+        function updatePrices(serviceKey) {
+            document.querySelectorAll(".price-category").forEach((category) => {
+                category.hidden = category.dataset.priceService !== serviceKey;
+            });
+        }
+
+        function sameDate(firstDate, secondDate) {
+            return firstDate.getFullYear() === secondDate.getFullYear()
+                && firstDate.getMonth() === secondDate.getMonth()
+                && firstDate.getDate() === secondDate.getDate();
+        }
+
+        function renderDates(year, month) {
+            const state = serviceState[currentService];
+            state.year = year;
+            state.month = month;
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            state.day = Math.min(state.day, daysInMonth);
+            dates.innerHTML = "";
+
+            for (let day = 1; day <= daysInMonth; day += 1) {
+                const date = new Date(year, month, day);
+                const button = document.createElement("button");
+                const weekday = weekdayFormatter.format(date).replace(".", "");
+                button.innerHTML = `${weekday}<br>${day}`;
+                button.classList.toggle("active", date.getFullYear() === state.year
+                    && date.getMonth() === state.month
+                    && date.getDate() === state.day);
+                button.addEventListener("click", () => {
+                    dates.querySelectorAll("button").forEach((dateButton) => dateButton.classList.remove("active"));
+                    button.classList.add("active");
+                    state.day = day;
+                });
+                dates.appendChild(button);
+            }
+        }
+
+        function renderSchedule(serviceKey) {
+            const state = serviceState[serviceKey];
+            schedule.innerHTML = "";
+            serviceSchedules[serviceKey].times.forEach((time, index) => {
+                const button = document.createElement("button");
+                button.textContent = time;
+                button.classList.toggle("active", time === state.time);
+                button.addEventListener("click", () => {
+                    schedule.querySelectorAll("button").forEach((timeButton) => timeButton.classList.remove("active"));
+                    button.classList.add("active");
+                    state.time = time;
+                });
+                schedule.appendChild(button);
+            });
+        }
+
+        function updateMonthSelection() {
+            const state = serviceState[currentService];
+            monthSlider.querySelectorAll("button").forEach((monthButton, index) => {
+                const monthDate = futureMonths[index];
+                monthButton.classList.toggle("active", monthDate.getFullYear() === state.year
+                    && monthDate.getMonth() === state.month);
+            });
+        }
+
+        document.querySelectorAll(".service-option").forEach((serviceButton) => {
+            serviceButton.addEventListener("click", () => {
+                document.querySelectorAll(".service-option").forEach((button) => button.classList.remove("active"));
+                serviceButton.classList.add("active");
+                currentService = serviceButton.dataset.service;
+                serviceSummary.textContent = serviceSchedules[currentService].label;
+                renderDates(serviceState[currentService].year, serviceState[currentService].month);
+                renderSchedule(currentService);
+                updateMonthSelection();
+                updatePrices(currentService);
+            });
+        });
+
+        futureMonths.forEach((monthDate, index) => {
+            const button = document.createElement("button");
+            const monthLabel = monthFormatter.format(monthDate).replace(".", "");
+            button.className = "month";
+            button.textContent = monthLabel.charAt(0).toUpperCase() + monthLabel.slice(1);
+            button.classList.toggle("active", index === 0);
+            button.addEventListener("click", () => {
+                monthSlider.querySelectorAll("button").forEach((monthButton) => monthButton.classList.remove("active"));
+                button.classList.add("active");
+                serviceState[currentService].year = monthDate.getFullYear();
+                serviceState[currentService].month = monthDate.getMonth();
+                serviceState[currentService].day = 1;
+                renderDates(monthDate.getFullYear(), monthDate.getMonth());
+            });
+            monthSlider.appendChild(button);
+        });
+
+        renderSchedule(currentService);
+        updatePrices("nails");
+
+        document.querySelector(".book-btn").addEventListener("click", openBookingModal);
+        document.querySelector(".modal-close").addEventListener("click", closeBookingModal);
+        bookingModal.addEventListener("click", (event) => {
+            if (event.target === bookingModal) {
+                closeBookingModal();
+            }
+        });
+        bookingForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const formData = new FormData(bookingForm);
+            const state = serviceState[currentService];
+            const message = [
+                "Hola, quiero reservar un turno.",
+                "",
+                `Nombre: ${formData.get("clientName")}`,
+                `Telefono: ${formData.get("clientPhone")}`,
+                `Servicio: ${serviceSchedules[currentService].label}`,
+                `Fecha: ${formatSelectedDate(state)}`,
+                `Hora: ${state.time}`
+            ].join("\n");
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+            bookingMessage.textContent = "WhatsApp se abrira con tu mensaje listo para enviar.";
+            bookingMessage.hidden = false;
+        });
+
+        document.querySelectorAll(".extra-tab").forEach((tabButton) => {
+            tabButton.addEventListener("click", () => {
+                document.querySelectorAll(".extra-tab").forEach((button) => button.classList.remove("active"));
+                document.querySelectorAll(".extra-panel").forEach((panel) => panel.classList.remove("active"));
+                tabButton.classList.add("active");
+                document.querySelector(`#${tabButton.dataset.panel}`).classList.add("active");
+            });
+        });
+
+        document.querySelectorAll(".picker-card").forEach((picker) => {
+            const summary = picker.querySelector("summary");
+
+            function fitClosedPicker() {
+                picker.style.height = `${summary.offsetHeight + 22}px`;
+            }
+
+            picker.classList.add("is-collapsed");
+            fitClosedPicker();
+
+            summary.addEventListener("click", (event) => {
+                event.preventDefault();
+
+                if (picker.classList.contains("is-closing")) {
+                    return;
+                }
+
+                if (picker.open) {
+                    picker.classList.remove("is-animating");
+                    picker.classList.add("is-closing");
+                    window.setTimeout(() => {
+                        picker.open = false;
+                        picker.classList.remove("is-closing");
+                        picker.classList.add("is-collapsed");
+                        fitClosedPicker();
+                    }, 280);
+                    return;
+                }
+
+                picker.classList.remove("is-collapsed");
+                picker.style.height = "";
+                picker.open = true;
+                window.requestAnimationFrame(() => {
+                    picker.classList.add("is-animating");
+                });
+            });
+        });
+
+        renderDates(serviceState[currentService].year, serviceState[currentService].month);
+    </script>
+</body>
+</html>
