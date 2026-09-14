@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReservationService {
-    private static final DateTimeFormatter CREATED_AT_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter CREATED_AT_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final ReservationRepository repository;
     private final GoogleSheetsReservationService googleSheets;
 

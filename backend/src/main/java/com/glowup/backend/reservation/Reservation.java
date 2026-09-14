@@ -35,7 +35,7 @@ public class Reservation {
     @Column(nullable = false)
     private String clientPhone;
     @Column(nullable = false)
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime createdAt;
 
     @PrePersist

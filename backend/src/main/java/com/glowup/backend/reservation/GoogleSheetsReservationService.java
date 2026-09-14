@@ -18,7 +18,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 
 @Service
 public class GoogleSheetsReservationService {
-    private static final DateTimeFormatter CREATED_AT_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter CREATED_AT_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final String spreadsheetId;
     private final String credentialsJson;
 
