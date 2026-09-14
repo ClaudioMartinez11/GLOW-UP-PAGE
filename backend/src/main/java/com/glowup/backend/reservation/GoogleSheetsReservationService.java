@@ -1,5 +1,13 @@
 package com.glowup.backend.reservation;
 
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.sheets.v4.Sheets;
@@ -7,15 +15,10 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 @Service
 public class GoogleSheetsReservationService {
+    private static final DateTimeFormatter CREATED_AT_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private final String spreadsheetId;
     private final String credentialsJson;
 
@@ -49,7 +52,7 @@ public class GoogleSheetsReservationService {
                 reservation.getServiceName(),
                 reservation.getDate().toString(),
                 reservation.getTime(),
-                reservation.getCreatedAt().toString()
+                reservation.getCreatedAt().format(CREATED_AT_FORMAT)
             )));
             sheets.spreadsheets().values()
                 .append(spreadsheetId, tab + "!A:G", values)

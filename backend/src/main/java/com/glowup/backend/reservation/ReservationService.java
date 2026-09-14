@@ -2,6 +2,7 @@ package com.glowup.backend.reservation;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReservationService {
+    private static final DateTimeFormatter CREATED_AT_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private final ReservationRepository repository;
     private final GoogleSheetsReservationService googleSheets;
 
@@ -70,7 +72,7 @@ public class ReservationService {
             row.createCell(3).setCellValue(reservation.getServiceName());
             row.createCell(4).setCellValue(reservation.getDate().toString());
             row.createCell(5).setCellValue(reservation.getTime());
-            row.createCell(6).setCellValue(reservation.getCreatedAt().toString());
+            row.createCell(6).setCellValue(reservation.getCreatedAt().format(CREATED_AT_FORMAT));
         }
         for (int index = 0; index < columns.length; index++) sheet.autoSizeColumn(index);
     }
