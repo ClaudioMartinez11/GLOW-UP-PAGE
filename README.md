@@ -1,57 +1,101 @@
 # Glow Up
 
-Página web de reservas para un local de manicura y peinados. Permite seleccionar el tipo de servicio, consultar meses y fechas disponibles, elegir un horario y confirmar una reserva con los datos de la clienta.
+Página web de reservas para un local de manicura y peinados. Permite seleccionar un servicio, consultar fechas y horarios disponibles y confirmar una reserva con los datos de la clienta.
+
+## Características
+
+- Diseño responsive para PC y celular.
+- Selección de servicio.
+- Selección de fecha y horario.
+- Creación de reservas.
+- Prevención de reservas duplicadas.
+- Almacenamiento persistente en PostgreSQL.
+- Sincronización con Google Sheets.
+- Exportación de reservas a Excel.
+- Integración con WhatsApp.
+- API REST desarrollada con Spring Boot.
+
+## Arquitectura
 
 El proyecto está dividido en:
 
-- `index.html` y `styles.css`: frontend responsive para PC y celular.
-- `backend/`: API Spring Boot para guardar las reservas.
-- PostgreSQL/Neon: almacenamiento persistente de las reservas.
-- Google Sheets: documento compartido que se actualiza automáticamente con cada reserva.
-- WhatsApp: mensaje preparado con los datos de la reserva.
+```text
+GLOW-UP-PAGE/
+├── index.html
+├── styles.css
+├── backend/
+│   ├── src/
+│   ├── pom.xml
+│   └── ...
+├── .gitignore
+└── README.md
+```
+
+### Tecnologías
+
+**Frontend**
+- HTML5
+- CSS3
+- JavaScript
+- Netlify
+
+**Backend**
+- Java
+- Spring Boot
+- Maven
+- PostgreSQL
+
+**Servicios externos**
+- Neon PostgreSQL
+- Google Sheets API
+- WhatsApp
 
 ## Servicios
 
-Las agendas y precios se separan en dos servicios:
+La agenda se divide en dos categorías:
 
-- **Servicios de uñas**
-- **Tratamientos capilares**
+- Servicios de uñas
+- Tratamientos capilares
 
-Cada servicio mantiene su propia selección de fecha y horario. Las reservas se agregan a pestañas separadas en Google Sheets:
+Cada categoría mantiene su propia selección de fechas y horarios.
 
-- `Servicios de uñas`
-- `Tratamientos capilares`
+Las reservas pueden sincronizarse con pestañas separadas de Google Sheets:
+
+```text
+Servicios de uñas
+Tratamientos capilares
+```
 
 ## Requisitos
 
 ### Frontend
 
 - Navegador moderno.
-- Five Server o cualquier servidor web local.
-- Netlify para publicar la página.
+- VS Code + Five Server para desarrollo local.
+- Netlify para despliegue.
 
 ### Backend
 
-- JDK 17 o posterior.
-- Maven 3.9 o posterior.
-- PostgreSQL 15+ o una base de datos Neon.
-- Una cuenta de servicio de Google con acceso de edición a la hoja.
+- JDK 17 o superior.
+- Maven 3.9 o superior.
+- PostgreSQL 15+ o Neon PostgreSQL.
+- Cuenta de servicio de Google con acceso a la hoja correspondiente.
 
 ## Ejecutar el frontend localmente
 
-Abrir la carpeta del proyecto con VS Code y ejecutar `index.html` usando Five Server.
+Abrir el proyecto con VS Code y ejecutar `index.html` mediante Five Server o cualquier servidor web local.
 
-Por defecto, el frontend busca el backend en:
+Por defecto, el frontend utiliza:
 
 ```text
 http://localhost:8080
 ```
 
-Para producción se puede definir la URL pública del backend antes del script principal:
+Para producción se puede configurar la URL pública del backend:
 
 ```html
 <script>
-    window.GLOW_UP_API_URL = "https://tu-backend-publicado.example.com";
+    window.GLOW_UP_API_URL = "https://tu-backend.example.com";
 </script>
 ```
 
@@ -59,18 +103,18 @@ Para producción se puede definir la URL pública del backend antes del script p
 
 Desde la carpeta `backend`:
 
-```powershell
+```bash
 mvn spring-boot:run
 ```
 
-También se puede construir el archivo ejecutable:
+También se puede generar el archivo ejecutable:
 
-```powershell
+```bash
 mvn clean package
 java -jar target/glow-up-backend-0.0.1-SNAPSHOT.jar
 ```
 
-La API queda disponible en:
+La API estará disponible en:
 
 ```text
 http://localhost:8080
@@ -78,23 +122,40 @@ http://localhost:8080
 
 ## Variables de entorno
 
-Configurar estas variables en el servidor donde se ejecute Spring Boot:
+El backend utiliza variables de entorno para evitar almacenar credenciales directamente en el código fuente.
+
+Ejemplo:
 
 ```text
 DATABASE_URL=jdbc:postgresql://...
 DATABASE_USERNAME=...
 DATABASE_PASSWORD=...
 DATABASE_SSLMODE=require
+
 CORS_ORIGINS=https://tu-sitio.netlify.app,http://localhost:5500
+
 GOOGLE_SHEETS_SPREADSHEET_ID=...
 GOOGLE_SERVICE_ACCOUNT_JSON={...}
 ```
 
-`GOOGLE_SERVICE_ACCOUNT_JSON` debe contener el JSON de la cuenta de servicio. No subir ese JSON a GitHub.
+### Importante
+
+Las siguientes credenciales **no deben subirse a GitHub**:
+
+- Contraseña de PostgreSQL.
+- `GOOGLE_SERVICE_ACCOUNT_JSON`.
+- Tokens.
+- API keys.
+- Archivos `.env`.
+- Cualquier otra credencial privada.
+
+Estas variables deben configurarse directamente en el servicio donde se ejecute el backend.
 
 ## API
 
 ### Crear una reserva
+
+Endpoint público utilizado por el formulario:
 
 ```http
 POST /api/reservations
@@ -114,54 +175,153 @@ Ejemplo:
 }
 ```
 
-Al crear la reserva, el backend:
+Al crear una reserva, el backend:
 
-1. La guarda en Neon PostgreSQL.
-2. La agrega a la pestaña correspondiente de Google Sheets.
-3. Permite que el frontend abra WhatsApp con el mensaje preparado.
+1. Valida los datos recibidos.
+2. Comprueba la disponibilidad.
+3. Guarda la reserva en PostgreSQL.
+4. Sincroniza la información con Google Sheets.
+5. Permite preparar el mensaje de confirmación mediante WhatsApp.
 
-### Estado del backend
+## Estado del backend
+
+Para comprobar que el backend está funcionando:
 
 ```http
 GET /api/reservations/health
 ```
 
-### Descargar Excel
+Este endpoint solamente devuelve el estado del servicio y no debe exponer información de clientes.
+
+## Exportación de reservas
 
 ```http
 GET /api/reservations/export.xlsx
 ```
 
-Genera un archivo actualizado llamado:
+Genera un archivo Excel actualizado con las reservas almacenadas en la base de datos.
 
-```text
-RESERVAS SEGUIMIENTO.xlsx
-```
+El archivo contiene información de las reservas y, por lo tanto, **este endpoint debe estar protegido y destinado exclusivamente al administrador**.
 
-El archivo contiene dos hojas separadas por servicio. Se genera desde la base de datos cada vez que se solicita, por lo que no depende de una copia antigua guardada en el servidor.
-
-## Despliegue
-
-El flujo recomendado es:
-
-```text
-GitHub -> Netlify -> Backend Spring Boot -> Neon PostgreSQL
-                                      -> Google Sheets
-```
-
-- GitHub guarda el código fuente.
-- Netlify publica `index.html`, `styles.css` y los recursos del frontend.
-- El backend Java debe ejecutarse en un servicio compatible con Spring Boot, como Render, Railway o Fly.io.
-- Neon almacena las reservas.
-- Google Sheets funciona como documento compartido para que la clienta pueda ver y editar el seguimiento.
+El archivo se genera desde PostgreSQL cada vez que se solicita y no depende de una copia antigua almacenada en el servidor.
 
 ## Seguridad
 
-No subir al repositorio:
+La aplicación debe mantener separadas las funciones públicas y administrativas.
 
-- Contraseñas de Neon.
-- `GOOGLE_SERVICE_ACCOUNT_JSON`.
-- Tokens o claves de APIs.
-- Archivos `.env`.
+### Endpoints públicos
 
-Estas exclusiones están contempladas en `.gitignore`.
+```text
+POST /api/reservations
+GET  /api/reservations/health
+```
+
+Estos endpoints pueden ser utilizados por el sitio web.
+
+### Endpoints administrativos
+
+```text
+GET /api/reservations/export.xlsx
+```
+
+La exportación contiene información de clientes y debe requerir autenticación/autorización de administrador.
+
+Las reservas y sus datos personales no deben estar disponibles públicamente.
+
+### Protección de datos
+
+Los datos de las clientas deben almacenarse y utilizarse únicamente para las funciones necesarias del sistema de reservas.
+
+Google Sheets debe mantenerse con acceso restringido. No se recomienda publicar una hoja que contenga nombres, teléfonos, fechas u otros datos personales.
+
+## CORS
+
+El backend permite configurar los orígenes autorizados mediante:
+
+```text
+CORS_ORIGINS
+```
+
+En producción se recomienda permitir únicamente el dominio real del frontend.
+
+Ejemplo:
+
+```text
+CORS_ORIGINS=https://tu-sitio.netlify.app
+```
+
+Evitar permitir cualquier origen si no es necesario.
+
+## Despliegue
+
+Arquitectura recomendada:
+
+```text
+GitHub
+   │
+   ├── Frontend
+   │      ↓
+   │   Netlify
+   │
+   └── Backend
+          ↓
+      Spring Boot
+          │
+          ├── PostgreSQL / Neon
+          │
+          └── Google Sheets
+```
+
+El frontend puede publicarse mediante Netlify.
+
+El backend puede ejecutarse en un servicio compatible con Spring Boot.
+
+PostgreSQL/Neon se utiliza como almacenamiento principal de las reservas.
+
+Google Sheets puede utilizarse como herramienta privada de seguimiento administrativo.
+
+## Recomendaciones para producción
+
+Antes de utilizar el sistema con clientes reales se recomienda:
+
+- Utilizar HTTPS.
+- Proteger los endpoints administrativos.
+- Validar los datos también en el backend.
+- Aplicar límites de solicitudes para evitar spam.
+- Mantener CORS restringido al dominio del frontend.
+- No exponer nombres ni teléfonos mediante endpoints públicos.
+- Mantener privada la hoja de Google Sheets.
+- Configurar las credenciales mediante variables de entorno.
+- Realizar copias de seguridad de la base de datos.
+- No almacenar secretos en el repositorio.
+
+## Flujo de una reserva
+
+```text
+Cliente
+   │
+   ↓
+Página web
+   │
+   ↓
+POST /api/reservations
+   │
+   ↓
+Backend Spring Boot
+   │
+   ├── Validación
+   │
+   ├── Comprobación de disponibilidad
+   │
+   ├── PostgreSQL
+   │
+   └── Google Sheets
+```
+
+Los datos administrativos y la exportación de reservas deben permanecer protegidos y no formar parte de la información pública del sitio.
+
+## Estado del proyecto
+
+Proyecto en desarrollo para la gestión de reservas de un local de manicura y peinados.
+
+La aplicación está preparada para ejecutarse en un entorno de producción una vez configuradas correctamente las variables de entorno, la autenticación administrativa, las políticas de CORS y las medidas de protección de datos.
